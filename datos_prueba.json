@@ -1,0 +1,492 @@
+{
+  "check_in": {
+    "success": [
+      {
+        "id": "ci_success_1",
+        "description": "Check-in básico: sala vacía, 1 persona",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 0,
+          "name": "Sala A"
+        },
+        "people_count": 1,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 1,
+          "available_capacity": 9
+        }
+      },
+      {
+        "id": "ci_success_2",
+        "description": "Check-in: grupo pequeño",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 0,
+          "name": "Sala B"
+        },
+        "people_count": 5,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 5,
+          "available_capacity": 5
+        }
+      },
+      {
+        "id": "ci_success_3",
+        "description": "Check-in: sala semi-llena",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 3,
+          "name": "Sala C"
+        },
+        "people_count": 4,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 7,
+          "available_capacity": 3
+        }
+      },
+      {
+        "id": "ci_success_4",
+        "description": "Check-in: ocupación exacta a capacidad",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 5,
+          "name": "Sala D"
+        },
+        "people_count": 5,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 10,
+          "available_capacity": 0
+        }
+      },
+      {
+        "id": "ci_success_5",
+        "description": "Check-in: salas grandes",
+        "room": {
+          "capacity": 100,
+          "current_occupancy": 0,
+          "name": "Auditorio"
+        },
+        "people_count": 50,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 50,
+          "available_capacity": 50
+        }
+      }
+    ],
+    "failure": [
+      {
+        "id": "ci_fail_1",
+        "description": "Check-in falla: supera capacidad por 1",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 9,
+          "name": "Sala Casi Llena"
+        },
+        "people_count": 2,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 9,
+          "available_capacity": 1,
+          "error_type": "capacity_exceeded"
+        }
+      },
+      {
+        "id": "ci_fail_2",
+        "description": "Check-in falla: sala completamente llena",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 10,
+          "name": "Sala Llena"
+        },
+        "people_count": 1,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 10,
+          "available_capacity": 0,
+          "error_type": "capacity_exceeded"
+        }
+      },
+      {
+        "id": "ci_fail_3",
+        "description": "Check-in falla: intenta entrar más de lo disponible",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 7,
+          "name": "Sala Semi-Llena"
+        },
+        "people_count": 5,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 7,
+          "available_capacity": 3,
+          "error_type": "capacity_exceeded"
+        }
+      },
+      {
+        "id": "ci_fail_4",
+        "description": "Check-in falla: 0 personas (caso inválido)",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 5,
+          "name": "Sala Normal"
+        },
+        "people_count": 0,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 5,
+          "error_type": "invalid_count"
+        }
+      },
+      {
+        "id": "ci_fail_5",
+        "description": "Check-in falla: número negativo",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 5,
+          "name": "Sala Normal"
+        },
+        "people_count": -3,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 5,
+          "error_type": "invalid_count"
+        }
+      }
+    ]
+  },
+  "check_out": {
+    "success": [
+      {
+        "id": "co_success_1",
+        "description": "Check-out básico: 1 persona",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 5,
+          "name": "Sala A"
+        },
+        "people_count": 1,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 4,
+          "available_capacity": 6
+        }
+      },
+      {
+        "id": "co_success_2",
+        "description": "Check-out: grupo pequeño",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 8,
+          "name": "Sala B"
+        },
+        "people_count": 3,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 5,
+          "available_capacity": 5
+        }
+      },
+      {
+        "id": "co_success_3",
+        "description": "Check-out: vaciar completamente",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 7,
+          "name": "Sala C"
+        },
+        "people_count": 7,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 0,
+          "available_capacity": 10
+        }
+      },
+      {
+        "id": "co_success_4",
+        "description": "Check-out: sala llena, salen todos",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 10,
+          "name": "Sala D"
+        },
+        "people_count": 10,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 0,
+          "available_capacity": 10
+        }
+      },
+      {
+        "id": "co_success_5",
+        "description": "Check-out: solo 1 persona sale",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 1,
+          "name": "Sala E"
+        },
+        "people_count": 1,
+        "expected_result": {
+          "success": true,
+          "final_occupancy": 0,
+          "available_capacity": 10
+        }
+      }
+    ],
+    "failure": [
+      {
+        "id": "co_fail_1",
+        "description": "Check-out falla: intenta sacar más de lo presente",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 3,
+          "name": "Sala Vacía"
+        },
+        "people_count": 5,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 3,
+          "error_type": "insufficient_occupancy"
+        }
+      },
+      {
+        "id": "co_fail_2",
+        "description": "Check-out falla: sala vacía",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 0,
+          "name": "Sala Vacía"
+        },
+        "people_count": 1,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 0,
+          "error_type": "insufficient_occupancy"
+        }
+      },
+      {
+        "id": "co_fail_3",
+        "description": "Check-out falla: 0 personas (caso inválido)",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 5,
+          "name": "Sala Normal"
+        },
+        "people_count": 0,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 5,
+          "error_type": "invalid_count"
+        }
+      },
+      {
+        "id": "co_fail_4",
+        "description": "Check-out falla: número negativo",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 5,
+          "name": "Sala Normal"
+        },
+        "people_count": -2,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 5,
+          "error_type": "invalid_count"
+        }
+      },
+      {
+        "id": "co_fail_5",
+        "description": "Check-out falla: intenta sacar más del doble",
+        "room": {
+          "capacity": 10,
+          "current_occupancy": 4,
+          "name": "Sala Pequeña"
+        },
+        "people_count": 10,
+        "expected_result": {
+          "success": false,
+          "final_occupancy": 4,
+          "error_type": "insufficient_occupancy"
+        }
+      }
+    ]
+  },
+  "occupancy_percentage": [
+    {
+      "id": "occ_pct_0",
+      "description": "Sala vacía: 0%",
+      "room": {
+        "capacity": 10,
+        "current_occupancy": 0
+      },
+      "expected_percentage": 0.0
+    },
+    {
+      "id": "occ_pct_25",
+      "description": "25% ocupación",
+      "room": {
+        "capacity": 10,
+        "current_occupancy": 2.5
+      },
+      "expected_percentage": 25.0
+    },
+    {
+      "id": "occ_pct_50",
+      "description": "50% ocupación",
+      "room": {
+        "capacity": 10,
+        "current_occupancy": 5
+      },
+      "expected_percentage": 50.0
+    },
+    {
+      "id": "occ_pct_75",
+      "description": "75% ocupación",
+      "room": {
+        "capacity": 10,
+        "current_occupancy": 7.5
+      },
+      "expected_percentage": 75.0
+    },
+    {
+      "id": "occ_pct_100",
+      "description": "Sala llena: 100%",
+      "room": {
+        "capacity": 10,
+        "current_occupancy": 10
+      },
+      "expected_percentage": 100.0
+    },
+    {
+      "id": "occ_pct_large_room",
+      "description": "Sala grande: 1 persona",
+      "room": {
+        "capacity": 100,
+        "current_occupancy": 1
+      },
+      "expected_percentage": 1.0
+    }
+  ],
+  "edge_cases": [
+    {
+      "id": "edge_1",
+      "description": "Capacidad de 1 persona",
+      "room": {
+        "capacity": 1,
+        "current_occupancy": 0,
+        "name": "Closet"
+      },
+      "test_cases": [
+        {
+          "operation": "check_in",
+          "count": 1,
+          "expected_success": true,
+          "expected_occupancy": 1
+        },
+        {
+          "operation": "check_in",
+          "count": 1,
+          "expected_success": false,
+          "expected_occupancy": 1
+        }
+      ]
+    },
+    {
+      "id": "edge_2",
+      "description": "Capacidad muy grande",
+      "room": {
+        "capacity": 10000,
+        "current_occupancy": 0,
+        "name": "Estadio"
+      },
+      "test_cases": [
+        {
+          "operation": "check_in",
+          "count": 5000,
+          "expected_success": true,
+          "expected_occupancy": 5000
+        },
+        {
+          "operation": "check_in",
+          "count": 5000,
+          "expected_success": true,
+          "expected_occupancy": 10000
+        }
+      ]
+    },
+    {
+      "id": "edge_3",
+      "description": "Alternancia rápida entrada/salida",
+      "room": {
+        "capacity": 10,
+        "current_occupancy": 0,
+        "name": "Sala Normal"
+      },
+      "operations": [
+        {"type": "check_in", "count": 5},
+        {"type": "check_out", "count": 3},
+        {"type": "check_in", "count": 4},
+        {"type": "check_out", "count": 2},
+        {"type": "check_in", "count": 3}
+      ],
+      "expected_final_occupancy": 7
+    },
+    {
+      "id": "edge_4",
+      "description": "Ocupación con decimales teóricos",
+      "room": {
+        "capacity": 3,
+        "current_occupancy": 1
+      },
+      "expected_percentage": 33.33
+    }
+  ],
+  "room_configurations": {
+    "small": {
+      "capacity": 5,
+      "name": "Sala Pequeña",
+      "use_cases": ["reunión 1-1", "llamada privada"]
+    },
+    "medium": {
+      "capacity": 20,
+      "name": "Sala Mediana",
+      "use_cases": ["reunión de equipo", "presentación"]
+    },
+    "large": {
+      "capacity": 50,
+      "name": "Sala Grande",
+      "use_cases": ["conferencia", "evento"]
+    },
+    "auditorium": {
+      "capacity": 200,
+      "name": "Auditorio",
+      "use_cases": ["gran evento", "capacitación masiva"]
+    }
+  },
+  "batch_operations": [
+    {
+      "id": "batch_1",
+      "description": "Múltiples check-ins consecutivos",
+      "operations": [
+        {"operation": "check_in", "people": 2, "expected_occupancy": 2},
+        {"operation": "check_in", "people": 3, "expected_occupancy": 5},
+        {"operation": "check_in", "people": 4, "expected_occupancy": 9}
+      ],
+      "room_capacity": 10
+    },
+    {
+      "id": "batch_2",
+      "description": "Mezcla de check-in y check-out",
+      "operations": [
+        {"operation": "check_in", "people": 8, "expected_occupancy": 8},
+        {"operation": "check_out", "people": 2, "expected_occupancy": 6},
+        {"operation": "check_in", "people": 3, "expected_occupancy": 9},
+        {"operation": "check_out", "people": 4, "expected_occupancy": 5}
+      ],
+      "room_capacity": 10
+    }
+  ]
+}
